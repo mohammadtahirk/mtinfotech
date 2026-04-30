@@ -21,13 +21,13 @@ export default function Home() {
       setIsLoading(false);
       document.body.style.cursor = 'default';
       // document.body.style.overflow = 'hidden';
-      
+
     }, 2000);
 
 
     const lenis = new Lenis();
     lenis.on('scroll', ScrollTrigger.update)
-    gsap.ticker.add((time)=>{
+    gsap.ticker.add((time) => {
       lenis.raf(time * 1000)
     });
     gsap.ticker.lagSmoothing(0);
@@ -41,7 +41,7 @@ export default function Home() {
       <div className="w-full h-svh absolute top-0 left-0 z-[2]">
         <LightRays
           raysOrigin="top-center"
-          raysColor="#00ffff"
+          raysColor="#0173fa"
           raysSpeed={1.5}
           lightSpread={0.8}
           rayLength={1.2}
