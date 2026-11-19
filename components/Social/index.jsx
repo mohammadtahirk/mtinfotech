@@ -4,8 +4,8 @@ import Image from "next/image";
 
 export default function socialBlock() {
     return (
-        <section className="w-full mt-6 pb-10 sm:pb-14 lg:pb-16 xl:pb-20 2xl:pb-36 container mx-auto lg:px-0">
-            <div className="flex flex-col justify-center gap-4 md:gap-6">
+        <section className="w-full mt-6 pb-10 sm:pb-14 lg:pb-16 xl:pb-20 2xl:pb-36 container mx-auto px-0 overflow-hidden">
+            <div className="flex flex-col justify-center gap-4 md:gap-6 overflow-hidden">
                 <marquee behavior="smooth" direction="left">
                     <div className="text-white shadow-[inset_0_1px_0_1px_rgba(255,255,255,0.06)] bg-[#1b1b1b] rounded-xl lg:py-6 md:py-5 py-4 p-5 min-w-36 md:min-w-52 inline-flex flex-wrap flex-row mr-3 md:mr-4 justify-center items-center hover:bg-[#242424] cursor-pointer transition-all duration-300 ease-linear">
                         <div className="lg:w-10 lg:h-10 md:w-8 md:h-8 flex-shrink-0">
