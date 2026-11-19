@@ -136,9 +136,14 @@ export default function Contact() {
             >
               {/* FormSubmit Configuration Fields */}
               <input type="hidden" name="_next" value={redirectUrl} />
-              <input type="hidden" name="_subject" value="New Inquiry from Tahir's Portfolio" />
+              <input type="hidden" name="_subject" value="New Project Inquiry - Tahir's Portfolio" />
               <input type="hidden" name="_captcha" value="false" />
               <input type="hidden" name="_template" value="table" />
+              <input 
+                type="hidden" 
+                name="_autoresponse" 
+                value="Thank you for contacting Tahir Kalaiwala! I have received your message and project details. I will review your requirements and get back to you within 12-24 hours with project scope and estimates. If urgent, feel free to call or message me on WhatsApp at +91 6355744550. Portfolio: https://mtinfotech.vercel.app" 
+              />
 
               <div className="grid sm:grid-cols-2 gap-6">
                 <div>
@@ -148,7 +153,7 @@ export default function Contact() {
                   <input 
                     type="text" 
                     id="name"
-                    name="Full Name" 
+                    name="name" 
                     required
                     placeholder="e.g. John Doe" 
                     className="h-12 px-4 text-white bg-[#141414] border border-white/10 focus:border-[#ffca9a] focus:ring-1 focus:ring-[#ffca9a] outline-none rounded-xl w-full block transition-colors text-sm"
@@ -161,7 +166,7 @@ export default function Contact() {
                   <input 
                     type="email" 
                     id="email"
-                    name="Email Address" 
+                    name="email" 
                     required
                     placeholder="e.g. john@example.com" 
                     className="h-12 px-4 text-white bg-[#141414] border border-white/10 focus:border-[#ffca9a] focus:ring-1 focus:ring-[#ffca9a] outline-none rounded-xl w-full block transition-colors text-sm"
