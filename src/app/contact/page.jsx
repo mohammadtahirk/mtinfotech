@@ -12,30 +12,67 @@ export default function Contact() {
     message: "",
   });
   const [status, setStatus] = useState("idle"); // idle, submitting, success, error
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) {
       alert("Please fill in your name, email, and message.");
       return;
     }
     setStatus("submitting");
-    setTimeout(() => {
-      setStatus("success");
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        projectType: "Web Design & Development",
-        message: "",
+    setErrorMessage("");
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/kalaiwalatahir@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify({
+          Name: formData.name,
+          Email: formData.email,
+          Phone: formData.phone || "Not provided",
+          "Project Type": formData.projectType,
+          Message: formData.message,
+          _subject: `New Portfolio Message from ${formData.name}`,
+          _template: "table",
+          _captcha: "false",
+        }),
       });
-    }, 1200);
+
+      const result = await response.json();
+      if (response.ok && (result.success === "true" || result.success === true)) {
+        setStatus("success");
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          projectType: "Web Design & Development",
+          message: "",
+        });
+      } else {
+        throw new Error(result.message || "Failed to deliver message via service.");
+      }
+    } catch (err) {
+      console.error("Submission error:", err);
+      // Fallback: allow mailto redirect or display friendly instructions
+      setStatus("error");
+      setErrorMessage("Could not send automatically. Please click 'Send via Email App' below or contact directly at kalaiwalatahir@gmail.com.");
+    }
   };
+
+  const mailtoHref = `mailto:kalaiwalatahir@gmail.com?subject=${encodeURIComponent(
+    `Project Inquiry: ${formData.projectType || 'Web Development'}`
+  )}&body=${encodeURIComponent(
+    `Hi Tahir,\n\nName: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\nProject Type: ${formData.projectType}\n\nMessage:\n${formData.message}`
+  )}`;
 
   return (
     <section className="py-8 sm:py-12 lg:py-16 container mx-auto px-0">
@@ -115,11 +152,13 @@ export default function Contact() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-6 border-b border-white/10 mb-8">
             <div>
               <h3 className="text-2xl font-bold text-white">Send a Message</h3>
-              <p className="text-xs sm:text-sm text-white/50 mt-1">Fill out the form below and Tahir will get back to you shortly.</p>
+              <p className="text-xs sm:text-sm text-white/50 mt-1">
+                Fill out the form below to deliver your message directly to Tahir's email.
+              </p>
             </div>
             <div className="text-xs text-white/40 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-[#00ff88]"></span>
-              Usually replies in ~2 hours
+              Delivered directly to kalaiwalatahir@gmail.com
             </div>
           </div>
 
@@ -132,17 +171,30 @@ export default function Contact() {
               </div>
               <h4 className="text-2xl font-bold text-white mb-2">Message Sent Successfully!</h4>
               <p className="text-white/70 max-w-md mx-auto text-sm sm:text-base mb-6">
-                Thank you for reaching out, Tahir has received your message and will respond to your email shortly.
+                Thank you for reaching out! Your message has been sent to Tahir at <span className="text-white font-medium">kalaiwalatahir@gmail.com</span>. He will respond to your email shortly.
               </p>
               <button 
+                type="button"
                 onClick={() => setStatus("idle")} 
-                className="bg-white text-black font-semibold px-6 py-2.5 rounded-full text-sm hover:bg-[#ffca9a] transition-colors"
+                className="bg-white text-black font-semibold px-6 py-2.5 rounded-full text-sm hover:bg-[#ffca9a] transition-colors cursor-pointer"
               >
                 Send Another Message
               </button>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
+              {status === "error" && (
+                <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-red-200 text-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                  <span>{errorMessage}</span>
+                  <a 
+                    href={mailtoHref} 
+                    className="bg-white text-black font-semibold text-xs py-2 px-4 rounded-full whitespace-nowrap hover:bg-[#ffca9a] transition-colors"
+                  >
+                    Send via Email App
+                  </a>
+                </div>
+              )}
+
               <div className="grid sm:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="name" className="block text-xs uppercase tracking-wider text-white/60 font-medium mb-2">
@@ -234,7 +286,7 @@ export default function Contact() {
                   disabled={status === "submitting"}
                   className="w-full sm:w-auto bg-white hover:bg-[#ffca9a] text-black font-semibold py-3 px-8 rounded-full transition-all duration-300 disabled:opacity-50 cursor-pointer text-sm sm:text-base"
                 >
-                  {status === "submitting" ? "Sending Message..." : "Submit Message"}
+                  {status === "submitting" ? "Sending to kalaiwalatahir@gmail.com..." : "Submit Message"}
                 </button>
                 <div className="flex items-center gap-3">
                   <CallFreeBtn />
