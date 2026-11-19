@@ -1,78 +1,24 @@
 'use client';
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Link from "next/link";
 import Headings from "../../../components/Headings";
 import CallFreeBtn from "../../../components/CommenElements/CallFreeBtn";
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    projectType: "Web Design & Development",
-    message: "",
-  });
-  const [status, setStatus] = useState("idle"); // idle, submitting, success, error
-  const [errorMessage, setErrorMessage] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [redirectUrl, setRedirectUrl] = useState("https://mtinfotech.vercel.app/contact?success=true");
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) {
-      alert("Please fill in your name, email, and message.");
-      return;
-    }
-    setStatus("submitting");
-    setErrorMessage("");
-
-    try {
-      const response = await fetch("https://formsubmit.co/ajax/kalaiwalatahir@gmail.com", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-        },
-        body: JSON.stringify({
-          Name: formData.name,
-          Email: formData.email,
-          Phone: formData.phone || "Not provided",
-          "Project Type": formData.projectType,
-          Message: formData.message,
-          _subject: `New Portfolio Message from ${formData.name}`,
-          _template: "table",
-          _captcha: "false",
-        }),
-      });
-
-      const result = await response.json();
-      if (response.ok && (result.success === "true" || result.success === true)) {
-        setStatus("success");
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          projectType: "Web Design & Development",
-          message: "",
-        });
-      } else {
-        throw new Error(result.message || "Failed to deliver message via service.");
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // Set redirect URL dynamically based on current origin
+      setRedirectUrl(`${window.location.origin}/contact?success=true`);
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("success") === "true") {
+        setIsSuccess(true);
       }
-    } catch (err) {
-      console.error("Submission error:", err);
-      // Fallback: allow mailto redirect or display friendly instructions
-      setStatus("error");
-      setErrorMessage("Could not send automatically. Please click 'Send via Email App' below or contact directly at kalaiwalatahir@gmail.com.");
     }
-  };
-
-  const mailtoHref = `mailto:kalaiwalatahir@gmail.com?subject=${encodeURIComponent(
-    `Project Inquiry: ${formData.projectType || 'Web Development'}`
-  )}&body=${encodeURIComponent(
-    `Hi Tahir,\n\nName: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\nProject Type: ${formData.projectType}\n\nMessage:\n${formData.message}`
-  )}`;
+  }, []);
 
   return (
     <section className="py-8 sm:py-12 lg:py-16 container mx-auto px-0">
@@ -85,7 +31,7 @@ export default function Contact() {
           subTitleClassName="text-[#ffca9a]" 
         />
         <p className="text-white/60 text-sm sm:text-base md:text-lg mt-4 max-w-xl mx-auto leading-relaxed">
-          Have a project in mind, a question, or an exciting opportunity? Reach out directly by phone, email, or send a message below.
+          Have a project in mind, a question, or an exciting opportunity? Reach out directly by phone, email, WhatsApp, or send a message below.
         </p>
       </div>
 
@@ -129,7 +75,7 @@ export default function Contact() {
 
           {/* WhatsApp Card */}
           <a 
-            href="https://wa.me/916355744550" 
+            href="https://wa.me/916355744550?text=Hi%20Tahir,%20I%20am%20interested%20in%20your%20web%20design%20and%20development%20services." 
             target="_blank" 
             rel="noopener noreferrer"
             className="p-6 rounded-2xl bg-[#1b1b1b] shadow-[inset_0_1px_0_1px_rgba(255,255,255,0.06)] border border-white/5 hover:border-[#00ff88]/40 transition-all duration-300 group flex items-center gap-4 sm:col-span-2 lg:col-span-1"
@@ -162,7 +108,7 @@ export default function Contact() {
             </div>
           </div>
 
-          {status === "success" ? (
+          {isSuccess ? (
             <div className="p-8 sm:p-12 text-center bg-white/5 rounded-xl border border-[#00ff88]/30">
               <div className="w-16 h-16 rounded-full bg-[#00ff88]/20 text-[#00ff88] flex items-center justify-center mx-auto mb-4">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
@@ -171,29 +117,28 @@ export default function Contact() {
               </div>
               <h4 className="text-2xl font-bold text-white mb-2">Message Sent Successfully!</h4>
               <p className="text-white/70 max-w-md mx-auto text-sm sm:text-base mb-6">
-                Thank you for reaching out! Your message has been sent to Tahir at <span className="text-white font-medium">kalaiwalatahir@gmail.com</span>. He will respond to your email shortly.
+                Thank you for reaching out! Your message has been submitted to Tahir at <span className="text-white font-medium">kalaiwalatahir@gmail.com</span>. He will respond to your email shortly.
               </p>
-              <button 
-                type="button"
-                onClick={() => setStatus("idle")} 
-                className="bg-white text-black font-semibold px-6 py-2.5 rounded-full text-sm hover:bg-[#ffca9a] transition-colors cursor-pointer"
+              <Link 
+                href="/contact" 
+                onClick={() => setIsSuccess(false)}
+                className="bg-white text-black font-semibold px-6 py-2.5 rounded-full text-sm hover:bg-[#ffca9a] transition-colors inline-block"
               >
                 Send Another Message
-              </button>
+              </Link>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {status === "error" && (
-                <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-red-200 text-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                  <span>{errorMessage}</span>
-                  <a 
-                    href={mailtoHref} 
-                    className="bg-white text-black font-semibold text-xs py-2 px-4 rounded-full whitespace-nowrap hover:bg-[#ffca9a] transition-colors"
-                  >
-                    Send via Email App
-                  </a>
-                </div>
-              )}
+            <form 
+              action="https://formsubmit.co/kalaiwalatahir@gmail.com" 
+              method="POST"
+              onSubmit={() => setIsSubmitting(true)}
+              className="space-y-6"
+            >
+              {/* FormSubmit Configuration Fields */}
+              <input type="hidden" name="_next" value={redirectUrl} />
+              <input type="hidden" name="_subject" value="New Inquiry from Tahir's Portfolio" />
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_template" value="table" />
 
               <div className="grid sm:grid-cols-2 gap-6">
                 <div>
@@ -203,10 +148,8 @@ export default function Contact() {
                   <input 
                     type="text" 
                     id="name"
-                    name="name" 
+                    name="Full Name" 
                     required
-                    value={formData.name}
-                    onChange={handleChange}
                     placeholder="e.g. John Doe" 
                     className="h-12 px-4 text-white bg-[#141414] border border-white/10 focus:border-[#ffca9a] focus:ring-1 focus:ring-[#ffca9a] outline-none rounded-xl w-full block transition-colors text-sm"
                   />
@@ -218,10 +161,8 @@ export default function Contact() {
                   <input 
                     type="email" 
                     id="email"
-                    name="email" 
+                    name="Email Address" 
                     required
-                    value={formData.email}
-                    onChange={handleChange}
                     placeholder="e.g. john@example.com" 
                     className="h-12 px-4 text-white bg-[#141414] border border-white/10 focus:border-[#ffca9a] focus:ring-1 focus:ring-[#ffca9a] outline-none rounded-xl w-full block transition-colors text-sm"
                   />
@@ -236,10 +177,8 @@ export default function Contact() {
                   <input 
                     type="tel" 
                     id="phone"
-                    name="phone" 
-                    value={formData.phone}
-                    onChange={handleChange}
-                    placeholder="e.g. +1 (555) 000-0000" 
+                    name="Phone Number" 
+                    placeholder="e.g. +91 6355744550" 
                     className="h-12 px-4 text-white bg-[#141414] border border-white/10 focus:border-[#ffca9a] focus:ring-1 focus:ring-[#ffca9a] outline-none rounded-xl w-full block transition-colors text-sm"
                   />
                 </div>
@@ -249,9 +188,7 @@ export default function Contact() {
                   </label>
                   <select 
                     id="projectType"
-                    name="projectType" 
-                    value={formData.projectType}
-                    onChange={handleChange}
+                    name="Project Type" 
                     className="h-12 px-4 text-white bg-[#141414] border border-white/10 focus:border-[#ffca9a] focus:ring-1 focus:ring-[#ffca9a] outline-none rounded-xl w-full block transition-colors text-sm"
                   >
                     <option value="Web Design & Development">Web Design & Development</option>
@@ -270,11 +207,9 @@ export default function Contact() {
                 </label>
                 <textarea 
                   id="message"
-                  name="message" 
+                  name="Project Details & Message" 
                   rows={5}
                   required
-                  value={formData.message}
-                  onChange={handleChange}
                   placeholder="Tell me about your project, target audience, timeline, or any specific requirements..." 
                   className="p-4 text-white bg-[#141414] border border-white/10 focus:border-[#ffca9a] focus:ring-1 focus:ring-[#ffca9a] outline-none rounded-xl w-full block transition-colors text-sm resize-y"
                 />
@@ -283,10 +218,17 @@ export default function Contact() {
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
                 <button 
                   type="submit" 
-                  disabled={status === "submitting"}
-                  className="w-full sm:w-auto bg-white hover:bg-[#ffca9a] text-black font-semibold py-3 px-8 rounded-full transition-all duration-300 disabled:opacity-50 cursor-pointer text-sm sm:text-base"
+                  disabled={isSubmitting}
+                  className="w-full sm:w-auto bg-white hover:bg-[#ffca9a] text-black font-semibold py-3 px-8 rounded-full transition-all duration-300 disabled:opacity-50 cursor-pointer text-sm sm:text-base flex items-center justify-center gap-2"
                 >
-                  {status === "submitting" ? "Sending to kalaiwalatahir@gmail.com..." : "Submit Message"}
+                  {isSubmitting ? (
+                    <>
+                      <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin"></span>
+                      <span>Submitting...</span>
+                    </>
+                  ) : (
+                    "Submit Message"
+                  )}
                 </button>
                 <div className="flex items-center gap-3">
                   <CallFreeBtn />
