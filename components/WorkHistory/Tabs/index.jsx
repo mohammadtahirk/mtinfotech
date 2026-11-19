@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 
 export default function Tabs() {
@@ -7,57 +8,51 @@ export default function Tabs() {
     { 
       label: 'Experiences', 
       content: (
-        <p className="text-sm leading-relaxed text-white">
-          I have 3+ years of experience as a Frontend Developer, working with modern
-          technologies such as <strong>React.js</strong>, <strong>Next.js</strong>,
-          <strong>Vue.js</strong>, and <strong>Tailwind CSS</strong>.  
-          I specialize in transforming Figma designs into pixel-perfect, responsive
-          websites and applications.
-          <br /><br />
-          I've collaborated with cross-functional teams to build dashboards, e-commerce
-          platforms, and interactive landing pages with a focus on performance and user
-          experience. My experience also includes WordPress (Elementor) and Webflow for
-          no-code projects when speed matters.
-        </p>
-
+        <div className="text-sm sm:text-base leading-relaxed text-white/90 space-y-3">
+          <p>
+            I have <strong className="text-white">3+ years of experience</strong> as a Frontend Developer & Web Designer, building high-performing web applications with <strong className="text-[#ffca9a]">React.js</strong>, <strong className="text-[#ffca9a]">Next.js</strong>, and <strong className="text-[#00ffff]">Tailwind CSS</strong>.
+          </p>
+          <p>
+            I specialize in transforming Figma designs into pixel-perfect, responsive websites with smooth animations, optimal Core Web Vitals, and accessible UX.
+          </p>
+          <p className="text-white/60 text-xs sm:text-sm">
+            Proven track record working with international clients, startups, and product teams on SaaS dashboards, dynamic landing pages, and custom headless storefronts.
+          </p>
+        </div>
       )
     },
     { 
       label: 'Fun Facts', 
       content: (
-        <ul className="list-disc pl-6 space-y-2 text-sm leading-relaxed text-white">
-          <li>I can convert a Figma design into code faster than I can finish a coffee ☕</li>
-          <li>I enjoy experimenting with new CSS tricks and micro-animations 🎨</li>
-          <li>When I’m not coding, I love biking and going on road trips 🏍️</li>
-          <li>I once built a personal project that minifies CSS in real-time — just for fun!</li>
-          <li>I enjoy mentoring juniors and sharing tips about clean UI development 💡</li>
+        <ul className="list-disc pl-5 space-y-2 text-sm sm:text-base leading-relaxed text-white/90">
+          <li>I can convert complex Figma designs into responsive code with pixel perfection ⚡</li>
+          <li>Obsessed with silky-smooth micro-animations using Framer Motion & GSAP 🎨</li>
+          <li>Passionate about Web Performance — keeping bundle sizes lean and fast 🚀</li>
+          <li>When I’m not coding, I love exploring UI design trends and new web technologies 💡</li>
         </ul>
       ) 
     },
   ];
 
   return (
-    <div className="w-full mx-auto">
-      <div className="flex bg-[#161616] rounded-sm py-1 w-fit">
+    <div className="w-full">
+      <div className="flex bg-[#161616] rounded-lg p-1 w-fit border border-white/5">
         {tabs.map((tab, index) => (
           <button
             key={index}
-            className={`text-base leading-normal py-1 px-3 font-medium rounded-sm ${activeTab === index ? 'text-black bg-white' : 'text-white'}`}
+            className={`text-xs sm:text-sm leading-normal py-1.5 px-4 font-medium rounded-md transition-all duration-200 cursor-pointer ${
+              activeTab === index 
+                ? 'text-black bg-white shadow-sm' 
+                : 'text-white/70 hover:text-white'
+            }`}
             onClick={() => setActiveTab(index)}
           >
             {tab.label}
           </button>
         ))}
       </div>
-      <div className="relative 2xl:mt-14 xl:mt-10 lg:mt-8 mt-5 min-h-[150px]">
-        {tabs.map((tab, index) => (
-          <div
-            key={index}
-            className={`transition-opacity duration-500 ease-in-out absolute inset-0 ${activeTab === index ? 'opacity-100' : 'opacity-0'}`}
-          >
-            {tab.content}
-          </div>
-        ))}
+      <div className="mt-5 sm:mt-6 transition-all duration-300">
+        {tabs[activeTab].content}
       </div>
     </div>
   );

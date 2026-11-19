@@ -2,16 +2,29 @@
 import Headings from "../Headings";
 import Accordian from "./Accordian";
 
-export default function FAQaq() {
+export default function FAQ() {
     return (
-        <div className="pb-36">
-            <div className="flex flex-col gap-3 justify-center">
+        <div className="pb-16 sm:pb-24 lg:pb-32 container mx-auto px-0">
+            <div className="flex flex-col gap-3 justify-center text-center">
                 <Headings subTitleClassName={"text-[#7e43fb]"} subTitle={"FAQ"} title={"Frequently asked"} innerTitle={"questions"} />
             </div>
-            <div className="flex flex-col gap-4 mt-14">
-                <Accordian title={'What technologies do you specialize in?'} answer={`HTML5,CSS3 (including frameworks like Tailwind, Bootstrap),JavaScript (including frameworks like Reactjs, Nextjs),Responsive design principles, andAccessibility best practices.`} />
-                <Accordian title={'What are your strengths and weaknesses as a developer?'} answer={`Highlight your strengths in areas like HTML, CSS, JavaScript, specific frameworks, or communication. Be honest about areas you're working on improving.`} />
-                <Accordian title={'What are your career goals?'} answer={'Briefly mention your aspirations in the field. Do you want to specialize in a particular area, work on large-scale projects, or freelance?'} />
+            <div className="flex flex-col gap-4 mt-10 sm:mt-14 max-w-3xl mx-auto">
+                <Accordian 
+                    title={'What technologies does Tahir specialize in?'} 
+                    answer={'I specialize in frontend technologies including React.js, Next.js (App & Pages Router), JavaScript (ES6+), TypeScript, HTML5, CSS3, Tailwind CSS, Bootstrap, Framer Motion, and GSAP. I also have deep experience converting Figma & Adobe XD designs into responsive, clean code.'} 
+                />
+                <Accordian 
+                    title={'Are your websites fully responsive across mobile, tablet, and desktop?'} 
+                    answer={'Yes, 100%! Every interface is built with a mobile-first philosophy, meticulously tested across all viewports (from small 320px mobile screens to large 4K monitors) to guarantee seamless layout, readability, and interaction.'} 
+                />
+                <Accordian 
+                    title={'What is the typical timeline for a web project?'} 
+                    answer={'A standard landing page or portfolio takes 3-7 days, while full multi-page web applications and SaaS platforms typically take 2-4 weeks depending on requirements and custom features.'} 
+                />
+                <Accordian 
+                    title={'How can I reach out or book a consultation?'} 
+                    answer={'You can directly call or message me at +91 6355744550, send an email to kalaiwalatahir@gmail.com, or use the Contact form on this site. I respond within 24 hours.'} 
+                />
             </div>
         </div>
     )

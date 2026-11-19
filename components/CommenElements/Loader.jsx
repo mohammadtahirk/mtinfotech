@@ -3,18 +3,17 @@ import React, { useEffect, useState } from 'react';
 import { motion } from "framer-motion";
 import { slideUp } from './anim';
 
+const words = ['Hello', 'Bonjour', 'स्वागत हे', 'Ciao', 'Olá', 'おい', 'Hallå','Hola','Guten tag','Hallo','Home','Work','TWICE','The Damai','FABRIC™','Aanstekelijk','Base Create','AVVR','GraphicHunters','Future Goals','Atypikal','One:Nil','Andy Hardy','About','Contact','Success','Archive','Error','Styleguide'];
 
 const Loader = () => {
-    
     const [index, setIndex] = useState(0);
-    const words = ['Hello', 'Bonjour', 'स्वागत हे', 'Ciao', 'Olá', 'おい', 'Hallå','Hola','Guten tag','Hallo','Home','Work','TWICE','The Damai','FABRIC™','Aanstekelijk','Base Create','AVVR','GraphicHunters','Future Goals','Atypikal','One:Nil','Andy Hardy','About','Contact','Success','Archive','Error','Styleguide',]
 
     useEffect(() => {
-        if(index == words.length - 1) return;
-        setTimeout( ()=>{
-            setIndex(index + 1);
-        }, index == 0 ? 600 : 150)
-       
+        if(index >= words.length - 1) return;
+        const timer = setTimeout(() => {
+            setIndex(prev => prev + 1);
+        }, index === 0 ? 600 : 150);
+        return () => clearTimeout(timer);
     }, [index]);
 
     return (

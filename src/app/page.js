@@ -38,7 +38,7 @@ export default function Home() {
       <AnimatePresence mode="wait">
         {isLoading && <Loader />}
       </AnimatePresence>
-      <div className="w-full h-svh absolute top-0 left-0 z-[2]">
+      <div className="w-full h-svh absolute top-0 left-0 z-[2] pointer-events-none overflow-hidden">
         <LightRays
           raysOrigin="top-center"
           raysColor="#0173fa"

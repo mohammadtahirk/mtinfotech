@@ -7,8 +7,8 @@ const Heighlights = () => {
   return (
     <section className="w-full mt-6 pb-10 md:pb-20 lg:pb-28 2xl:pb-36">
         <div className="container mx-auto lg:px-0">
-            <div className="flex flex-col gap-3 justify-center md:max-w-[50%] mx-auto mb-7 sm:mb-8 md:mb-10">
-            <Headings subTitleClassName={"text-cyan-400"} subTitle={"Heighlights"} title={"Review of some exemplary"} innerTitle={"good works"} />
+            <div className="flex flex-col gap-3 justify-center md:max-w-[70%] mx-auto mb-7 sm:mb-8 md:mb-10 text-center">
+            <Headings subTitleClassName={"text-cyan-400"} subTitle={"Highlights"} title={"Review of some exemplary"} innerTitle={"good works"} />
             </div>
             <div className="grid md:grid-cols-4 place-content-center gap-4 md:gap-6">
                 <div className="flex flex-col gap-4  w-full">
@@ -54,19 +54,21 @@ const Heighlights = () => {
                     </div>
                 </div>
                 <div className="md:col-span-2">
-                    <div className="h-full py-6 xl:pt-10 px-6 lg::px-12 shadow-[inset_0_1px_0_1px_rgba(255,255,255,0.06)] bg-[#1b1b1b] rounded-xl">
-                        <p className="text-lg md:text-xl lg:text-2xl text-white">“We were fortunate to collaborate with Roger Hill on our latest SaaS project, and the experience was nothing short of exceptional. We highly recommend Roger Hill as a talented SaaS product designer."</p>
-                        <h4 className="text-4xl lg:text-6xl text-[#7e43fb] font-medium my-3 sm:my-5 xl:my-7" > 
-                            +230%
-                            <span className="block mt-2 text-sm">INCREASE IN CONVERSION RATE</span>
-                        </h4>
-                        <div className="flex flex-wrap pt-6 xl:pt-8 border-t border-t-[rgba(255,255,255,0.06)]">
-                            <div className="w-14 h-14 rounded-full bg-white flex-shrink-0 me-4">
-                                <Image src="/heighlights.svg" width={100} height={100} alt="David Gutta" />
-                            </div>
-                            <div className="flex-grow">
-                                <h6 className="text-white text-lg font-bold">David Gutta</h6>
-                                <p className="text-[#6f6f72] text-base mt-1">Founder & CEO at Snowflake</p>
+                    <div className="h-full py-6 xl:pt-10 px-6 lg:px-12 shadow-[inset_0_1px_0_1px_rgba(255,255,255,0.06)] bg-[#1b1b1b] rounded-xl flex flex-col justify-between">
+                        <p className="text-lg md:text-xl lg:text-2xl text-white leading-relaxed">“Collaborating with Tahir Kalaiwala on our SaaS dashboard and landing platform was exceptional. He delivers pixel-perfect, lightning-fast interfaces and is incredibly proactive with responsive design nuances.”</p>
+                        <div>
+                            <h4 className="text-4xl lg:text-6xl text-[#7e43fb] font-medium my-3 sm:my-5 xl:my-7" > 
+                                +230%
+                                <span className="block mt-2 text-sm text-white/70">INCREASE IN USER ENGAGEMENT & CONVERSION</span>
+                            </h4>
+                            <div className="flex flex-wrap items-center pt-6 xl:pt-8 border-t border-t-[rgba(255,255,255,0.06)]">
+                                <div className="w-14 h-14 rounded-full bg-white flex-shrink-0 me-4 overflow-hidden">
+                                    <Image src="/heighlights.svg" width={56} height={56} alt="Client avatar" />
+                                </div>
+                                <div className="flex-grow">
+                                    <h6 className="text-white text-lg font-bold">David Gutta</h6>
+                                    <p className="text-[#6f6f72] text-base mt-1">Founder & CEO</p>
+                                </div>
                             </div>
                         </div>
                     </div>
