@@ -7,7 +7,7 @@ import WorkHistory from "../../components/WorkHistory/WorkHistory.jsx";
 import Faq from "../../components/FAQ/index.jsx";
 import Loader from "../../components/CommenElements/Loader.jsx";
 import { useEffect, useState } from "react";
-import { AnimatePresence, useTransform, useScroll, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import Lenis from 'lenis';
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -17,22 +17,36 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setIsLoading(false);
       document.body.style.cursor = 'default';
-      // document.body.style.overflow = 'hidden';
-
     }, 2000);
 
+    gsap.registerPlugin(ScrollTrigger);
 
-    const lenis = new Lenis();
-    lenis.on('scroll', ScrollTrigger.update)
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000)
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      touchMultiplier: 2,
     });
+
+    lenis.on('scroll', ScrollTrigger.update);
+
+    const update = (time) => {
+      lenis.raf(time * 1000);
+    };
+
+    gsap.ticker.add(update);
     gsap.ticker.lagSmoothing(0);
 
+    return () => {
+      clearTimeout(timer);
+      gsap.ticker.remove(update);
+      lenis.destroy();
+    };
   }, []);
+
   return (
     <main>
       <AnimatePresence mode="wait">
